@@ -58,14 +58,12 @@ sim dor(const c&) { ris; }
 // problem data
 // vector<int> values = { 5, 6, 4, 6, 5, 2};  // best score is 17
 // vector<int> weights = { 6, 5, 6, 6, 3, 7}; 
-vector<int> values = {60, 100, 120, 80, 50, 70, 90, 110, 65, 85, 95, 75, 55, 105, 115, 45, 125, 130, 40, 35}; 
-vector<int> weights = {10, 20, 30, 15, 5, 12, 18, 25, 8, 14, 22, 16, 7, 24, 28, 6, 32, 35, 4, 3}; 
+vector<int> values; 
+vector<int> weights; 
 
-const int KNAPSACK_CAPACITY = 50;
-const int ITEM_SIZE = 20; 
+int KNAPSACK_CAPACITY;
+int ITEM_SIZE; 
 
-vector<vector<int>> dp(ITEM_SIZE + 1, vector<int>(KNAPSACK_CAPACITY + 1, 0)); 
-vector<int> prev(ITEM_SIZE, -1); 
 
 // vector<int> retrace_best_combination(){
   
@@ -75,8 +73,27 @@ vector<int> prev(ITEM_SIZE, -1);
 
 int solve_with_dp(){
 
-    values.insert(values.begin(), -1);
-    weights.insert(weights.begin(), -1); 
+  values.pb(-1);
+  weights.pb(-1); 
+  
+  cin >> ITEM_SIZE; 
+  cin >> KNAPSACK_CAPACITY; 
+
+  for(int i = 0; i<ITEM_SIZE ; i++){
+    int x; 
+    cin >> x; 
+    weights.pb(x);   
+  }
+
+  for(int i = 0; i<ITEM_SIZE ; i++){
+    int x; 
+    cin >> x; 
+    values.pb(x); 
+  }
+  
+  vector<vector<int>> dp(ITEM_SIZE + 1, vector<int>(KNAPSACK_CAPACITY + 1, 0)); 
+  vector<int> prev(ITEM_SIZE, -1); 
+
    
     for(int i = 1; i <= ITEM_SIZE ; i++){
         for(int j = 1 ; j <= KNAPSACK_CAPACITY  ; j++){
@@ -99,5 +116,6 @@ int32_t main() {
     cout << fixed << setprecision(15);
 
     int res = solve_with_dp(); 
+    cout << "items number : " << ITEM_SIZE << endl; 
     cout << "classic dp result : " << res << endl; 
 }

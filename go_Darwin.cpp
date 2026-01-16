@@ -56,9 +56,8 @@ sim dor(const c&) { ris; }
 
 // Hyper params
 
-const int GENERATION_SIZE = 200; 
+const int GENERATION_SIZE = 50; 
 const int POPULATION_SIZE = 200; 
-const int GENOME_SIZE = 20; 
 const double CROSSOVER_RATE = 0.75; 
 const double MUTATION_RATE = 0.05; 
 
@@ -66,9 +65,10 @@ const double MUTATION_RATE = 0.05;
 // problem data
 // const vector<int> values = { 5, 6, 4, 6, 5, 2};  // best score is 17
 // const vector<int> weights = { 6, 5, 6, 6, 3, 7};  
-const vector<int> values = {60, 100, 120, 80, 50, 70, 90, 110, 65, 85, 95, 75, 55, 105, 115, 45, 125, 130, 40, 35}; 
-const vector<int> weights = {10, 20, 30, 15, 5, 12, 18, 25, 8, 14, 22, 16, 7, 24, 28, 6, 32, 35, 4, 3}; 
-const int KNAPSACK_CAPACITY = 50;
+vector<int> values ; 
+vector<int> weights ; 
+int GENOME_SIZE; 
+int KNAPSACK_CAPACITY;
 
 
 vector<int> best_genome; 
@@ -140,6 +140,7 @@ vector<vector<int>> cross_over(vector<int> parent_one, vector<int> parent_two){
 }
 
 
+
 vector<int> mutate(vector<int> genome){
   
   mt19937 rng(random_device{}()); 
@@ -155,8 +156,29 @@ vector<int> mutate(vector<int> genome){
   return genome; 
 }
 
+void init_params(){
+  
+  cin >> GENOME_SIZE; 
+  cin >> KNAPSACK_CAPACITY; 
+
+  for(int i = 0; i<GENOME_SIZE ; i++){
+    int x; 
+    cin >> x; 
+    weights.pb(x);   
+  }
+
+  for(int i = 0; i<GENOME_SIZE ; i++){
+    int x; 
+    cin >> x; 
+    values.pb(x); 
+  }
+  
+}
 
 void genetic_algo(){
+
+  init_params(); // O(GENOME_SIZE)
+
 
   vector<vector<int>> population = init_population(POPULATION_SIZE, GENOME_SIZE); 
 
@@ -168,6 +190,8 @@ void genetic_algo(){
   population[1] = indiv2; 
 
   for(int _ = 0 ; _ < GENERATION_SIZE ; _++){
+
+    cout << "current generation : " << _ << endl; 
 
     // selection 
     vector<int> luck_wheel;
